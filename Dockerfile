@@ -67,4 +67,4 @@ RUN chmod 777 /entry.sh
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
 # CMD [ "handler.handler" ]
 ENTRYPOINT [ "/entry.sh" ]
-CMD [ "handler.face_recognition_handler" ]
+CMD [ "handler.lambda_handler" ]

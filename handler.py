@@ -3,9 +3,9 @@ import face_recognition
 import pickle
 import os
 from face_recognition_util import FaceEncodingsLoader
+import json
 
 from s3Coms import S3FileManager
-
 
 
 
@@ -44,7 +44,7 @@ def lambda_handler(event, context):
 
 	downloaded_video_path = "/tmp/"
 	folder_path = downloaded_video_path.split(".")[0]
-	s3_input.S3FileManager(object_key, downloaded_video_path)
+	s3_input.copy_video_to_file(object_key, downloaded_video_path)
 	save_frames(downloaded_video_path,folder_path)
 
 
@@ -114,22 +114,26 @@ def lambda_handler(event, context):
 	# Search DynamoDB for the record using the filename (object_key)
 	response = table.get_item(
 		Key={
-			'filename': object_key
+			'string': final_string
 		}
 	)
 
-	if 'Item' in response:
-		# If the record is found, return it
-		item = response['Item']
-		return {
+	return {
 			'statusCode': 200,
-			'body': json.dumps(item)
-		}
-	else:
-		# If the record is not found, you can return an appropriate response
-		return {
-			'statusCode': 404,
-			'body': json.dumps('Record not found')
+			'body': json.dumps(final_string)
 		}
 
 
+# event = {
+#     "Records": [
+#         {
+#             "s3": {
+#                 "object": {
+#                     "key": "test0.mp4"
+#                 }
+#             }
+#         }
+#     ]
+# }
+
+# lambda_handler(event,"asdasda")
