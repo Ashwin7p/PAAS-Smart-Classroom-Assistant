@@ -1,0 +1,4 @@
+__pycache__/**
+exp/**
+test_cases/**
+venv/**
