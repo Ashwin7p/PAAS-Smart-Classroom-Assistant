@@ -62,6 +62,8 @@ COPY entry.sh /
 
 # Copy function code
 COPY handler.py ${FUNCTION_DIR}
+COPY face_recognition_util.py ${FUNCTION_DIR}
+COPY s3Coms.py ${FUNCTION_DIR}
 RUN chmod 777 /entry.sh
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
