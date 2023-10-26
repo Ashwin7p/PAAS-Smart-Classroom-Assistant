@@ -54,7 +54,7 @@ RUN chmod 755 /usr/bin/aws-lambda-rie
 
 # Install ffmpeg
 RUN apt-get install -y ffmpeg
-
+RUN apt-get install nano
 # Copy handler function
 COPY requirements.txt ${FUNCTION_DIR}
 RUN python${RUNTIME_VERSION} -m pip install -r requirements.txt --target ${FUNCTION_DIR}
@@ -64,9 +64,13 @@ COPY entry.sh /
 COPY handler.py ${FUNCTION_DIR}
 COPY face_recognition_util.py ${FUNCTION_DIR}
 COPY s3Coms.py ${FUNCTION_DIR}
+COPY encoding ${FUNCTION_DIR}
+RUN apt-get install dos2unix
+RUN dos2unix /entry.sh
 RUN chmod 777 /entry.sh
 
 # Set the CMD to your handler (could also be done as a parameter override outside of the Dockerfile)
 # CMD [ "handler.handler" ]
 ENTRYPOINT [ "/entry.sh" ]
+# ENTRYPOINT [ "/usr/local/bin/python", "-m", "awslambdaric" ]
 CMD [ "handler.lambda_handler" ]

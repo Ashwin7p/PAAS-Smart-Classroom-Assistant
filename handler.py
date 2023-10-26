@@ -9,6 +9,10 @@ from s3Coms import S3FileManager
 
 import os
 import logging
+import sys
+
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -50,10 +54,12 @@ def lambda_handler(event, context):
 	object_key = s3_event['object']['key']
 
 	downloaded_video_path = "/tmp/"
-	folder_path = downloaded_video_path.split(".")[0]
-	s3_input.copy_video_to_file(object_key, downloaded_video_path)
-	logger.info(f'video {object_key} downloaded at {downloaded_video_path}')
-	save_frames(downloaded_video_path,folder_path)
+	video_file_path = downloaded_video_path+object_key
+	folder_path = video_file_path.split(".")[0]
+	s3_input.copy_video_to_file(object_key, video_file_path)
+	logger.info(f'video {object_key} downloaded at {video_file_path}')
+	logger.info(f"save_frames({video_file_path},{folder_path})")
+	save_frames(video_file_path,folder_path)
 
 
 	
@@ -91,7 +97,9 @@ def lambda_handler(event, context):
 	# aws_region = 'us-east-1'  # Replace with your desired AWS region
 	# DynamoDB resource
 	dynamodb = boto3.resource('dynamodb', 
-							region_name=aws_region)
+							region_name=aws_region,
+							aws_access_key_id=aws_access_key_id, 
+                            aws_secret_access_key=aws_secret_access_key)
 
 	table_name = 'Students'
 
@@ -102,13 +110,16 @@ def lambda_handler(event, context):
 	# Retrieve data from DynamoDB where "name" equals "president_obama"
 	table = dynamodb.Table(table_name)
 
-	response = table.scan(
+	dynamo_response = table.scan(
 		FilterExpression=boto3.dynamodb.conditions.Attr(column_name).eq(filter_value)
 	)
 
+	response = dynamo_response["Items"][0]
+
+	logger.info(f" response from dynamo {response}")
 	final_string = f'{filter_value}, {response["major"]}, {response["year"]}'
 	logger.info(f"final string generated: {final_string}")
-	s3_results.upload_text(object_key,final_string)
+	s3_results.upload_text(object_key.split(".")[0],final_string)
 
 
 	print(results)
