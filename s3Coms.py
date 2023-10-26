@@ -1,9 +1,16 @@
 import boto3
 
+aws_access_key_id = 'AKIAQKMDBFTEDZAUQCG5'
+aws_secret_access_key = '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'
+aws_region = 'us-east-1' 
+
+
 class S3FileManager:
     def __init__(self, bucket_name):
         self.bucket_name = bucket_name
-        self.s3 = boto3.client('s3')
+        self.s3 = boto3.client('s3', region_name=aws_region, 
+                               aws_access_key_id=aws_access_key_id, 
+                               aws_secret_access_key=aws_secret_access_key)
 
     def upload_image(self, key, image_file):
         """

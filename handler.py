@@ -135,16 +135,33 @@ def lambda_handler(event, context):
 		}
 
 
-# event = {
-#     "Records": [
-#         {
-#             "s3": {
-#                 "object": {
-#                     "key": "test0.mp4"
-#                 }
-#             }
-#         }
-#     ]
-# }
+event = {
+  "Records": [
+    {
+      "eventVersion": "2.1",
+      "eventSource": "aws:s3",
+      "awsRegion": "us-east-1",
+      "eventTime": "1970-01-01T00:00:00.000Z",
+      "eventName": "ObjectCreated:*",
+      "s3": {
+        "s3SchemaVersion": "1.0",
+        "configurationId": "bcca404d-cb99-48f8-a05d-696eacf53c5b",
+        "bucket": {
+          "name": "inputbucket-cloudcomputing2",
+          "ownerIdentity": {
+            "principalId": "022286511304"
+          },
+          "arn": "arn:aws:s3:::inputbucket-cloudcomputing2"
+        },
+        "object": {
+          "key": "test_0.mp4",
+          "size": 322560,
+          "eTag": "0123456789abcdef0123456789abcdef",
+          "sequencer": "0A1B2C3D4E5F678901"
+        }
+      }
+    }
+  ]
+}
 
-# lambda_handler(event,"asdasda")
+lambda_handler(event,"asdasda")
