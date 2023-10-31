@@ -1,3 +1,39 @@
+# How to run
+
+- make sure you have the test cases folder copied in this folder
+
+```bash
+aws configure
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 022286511304.dkr.ecr.us-east-1.amazonaws.com
+python workload.py
+```
+
+
+# Making the docker image
+
+
+
+```bash
+docker build -t image5 .   
+docker tag image5 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-processing-image:latest
+
+# push
+docker push 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-processing-image:latest 
+```
+
+
+
+# Appendix for the brave
+
+
+
+
+
+
+
+
+
+
 # steps to create a new docker
 
 ```bash
@@ -32,10 +68,11 @@ aws ecr create-repository --repository-name video-image-fixed --region us-east-1
 - next tag and push the image
 
 ```bash
-docker tag video-image-fixed:test 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-image-fixed:latest
+docker build -t image5 .   
+docker tag image5 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-processing-image:latest
 
 # push
-docker push 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-image-fixed:latest
+docker push 022286511304.dkr.ecr.us-east-1.amazonaws.com/video-processing-image:latest 
 ```
 
 
