@@ -42,6 +42,12 @@ class S3FileManager:
         """
         self.s3.download_file(self.bucket_name, key, file_path)
 
+    def get_object(self, object_key):
+        return self.s3.get_object(Bucket=self.bucket_name, Key=object_key)
+
+    def list_all_objects(self):
+        return self.s3.list_objects(Bucket=self.bucket_name)
+
 # Example usage:
 if __name__ == "__main__":
     bucket_name = "your-bucket-name"

@@ -5,9 +5,16 @@ input_bucket = "inputbucket-cloudcomputing2"
 output_bucket = "outputbucket-cloudcomputing2"
 test_cases = "test_cases/"
 
+aws_access_key_id = ''
+aws_secret_access_key = ''
+aws_region = 'us-east-1' 
+
+
 def clear_input_bucket():
 	global input_bucket
-	s3 = boto3_client('s3')
+	s3 = boto3_client('s3', region_name=aws_region, 
+                               aws_access_key_id=aws_access_key_id, 
+                               aws_secret_access_key=aws_secret_access_key)
 	list_obj = s3.list_objects_v2(Bucket=input_bucket)
 	try:
 		for item in list_obj["Contents"]:
