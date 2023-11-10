@@ -1,7 +1,7 @@
 import boto3
 
-aws_access_key_id = 'AKIAQKMDBFTEDZAUQCG5'
-aws_secret_access_key = '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'
+aws_access_key_id = ''
+aws_secret_access_key = ''
 aws_region = 'us-east-1' 
 
 
