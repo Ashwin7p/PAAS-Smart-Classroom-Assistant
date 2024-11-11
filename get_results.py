@@ -3,7 +3,7 @@ import pandas as pd
 from io import BytesIO
 import csv
 
-output_bucket = "outputbucket-cloudcomputing2"
+output_bucket = "outputbucket-cloudcomputing"
 
 s3_results = S3FileManager(output_bucket)
 
